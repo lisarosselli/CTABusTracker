@@ -16,3 +16,12 @@ body {
 	height: 100%;
 	width: 100%;
 }
+
+nav {
+	z-index: 100;
+	background-color: yellow;
+}
+
+nav li {
+	
+}

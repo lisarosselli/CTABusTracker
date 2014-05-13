@@ -24,22 +24,7 @@ function initialize() {
 
 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-	// find user location
-	var geoOptions = {
-						enableHighAccuracy: false,
-  						timeout: 10000,
-  						maximumAge: 60000
-					}
-
-	if (navigator.geolocation)
- 	{
- 		console.log("browser does have geo!");
- 		navigator.geolocation.getCurrentPosition(locationFound, locationError, geoOptions);
- 	} else
- 	{
- 		console.log("browser no have geo");
- 		handleNoGeolocation(true);
- 	}
+	user.geolocate();
 
 
  	google.maps.event.addListener(map, 'click', function(e) {
@@ -55,23 +40,28 @@ function initialize() {
     	}
   	});
 
+  	$("#redoGeo").click(user.geolocate());
+
+  	testAjax();
 
 }
 
-function locationError(err) {
-	console.log("ERROR "+err.code+err.message);
+function testFxn() {
+	console.log("testFxn!");
 }
 
-function locationFound(position) {
-	console.log("locationFound");
 
-	if (user) {
-		user.currentLocation.lat = position.coords.latitude;
-		user.currentLocation.lng = position.coords.longitude;
-		controller.placeUserOnMap();
+
+function testAjax() {
+	console.log("testAjax");
+
+	$.ajax({
+  		url: "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=dcBun75XjwhPmnAkv8tQFa2xb",
+  		cache: false
+	})
+  		.done(function( html ) {
+    		console.log("done!");
+  		});
 	}
-}
 
-function handleNoLocation() {
-	console.log("handleNoLocation");
-}
+

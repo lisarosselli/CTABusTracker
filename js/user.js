@@ -21,6 +21,41 @@ function User() {
 	}
 }
 
+User.prototype.geolocate = function() {
+	console.log("User.geolocate");
+
+	var geoOptions = {
+						enableHighAccuracy: false,
+  						timeout: 10000,
+  						maximumAge: 60000
+					}
+
+	if (navigator.geolocation)
+ 	{
+ 		console.log("browser does have geo!");
+ 		navigator.geolocation.getCurrentPosition(locationFound, locationError, geoOptions);
+ 	} else
+ 	{
+ 		console.log("browser no have geo");
+ 		handleNoGeolocation(true);
+ 	}
+
+ 	function locationFound(position) {
+ 		console.log(this);
+ 		user.currentLocation.lat = position.coords.latitude;
+		user.currentLocation.lng = position.coords.longitude;
+		controller.placeUserOnMap();
+ 	}
+
+ 	function locationError(err) {
+		console.log("ERROR "+err.code+err.message);
+	}
+
+	function handleNoLocation() {
+		console.log("handleNoLocation");
+	}
+}
+
 User.prototype.placeUserOnMap = function() {
 	console.log("User.placeUserOnMap");
 
