@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>CORS Test</title>
+	<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+
+	<script type="text/javascript">
+		$(window).load(function() 
+		{
+   			doSomething2();
+		}); 
+
+		/*
+		function doSomething() {
+			$.ajax({
+				crossDomain: true,
+				xhrFields: {withCredentials: true},
+				type: "GET",
+				contentType: "application/json",
+				dataType: 'jsonp',
+				url: "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=dcBun75XjwhPmnAkv8tQFa2xb"
+			})
+				.fail(function( msg ) {
+					console.log(msg);
+					console.log("ajax.fail");
+			})
+				.done(function( msg ) {
+					console.log(msg);
+					console.log("ajax.done");
+			})	
+		}
+		*/
+
+		function doSomething2( callbackFxn ) {
+			var xhr = new XMLHttpRequest;
+			xhr.onreadystatechange = ensureReadiness;
+
+			var t = this;
+
+			function ensureReadiness()
+			{
+				if (xhr.readyState < 4)
+				{
+					console.log("ready state 4");
+					return;
+				}
+
+				if (xhr.status != 200)
+				{
+					console.log("200");
+					return;
+				}
+
+				if (xhr.readyState === 4)
+				{
+					var parsedObject = JSON.parse(xhr.response);
+					console.log(parsedObject);
+					//t.stopList = parsedObject;
+					//t.loaded = true;
+					callbackFxn();
+				}
+			}
+
+			xhr.open('GET', "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=dcBun75XjwhPmnAkv8tQFa2xb", true);
+			xhr.send('');
+		}
+
+		function myCallback() {
+			console.log("myCallback");
+		}
+
+
+	</script>
+</head>
+
+<body>
+	<h1>Hello World</h1>
+	<h2 id="output"></h2>
+
+	
+</body>
+
+</html>

@@ -32,7 +32,7 @@ User.prototype.geolocate = function() {
 
 	if (navigator.geolocation)
  	{
- 		console.log("browser does have geo!");
+ 		//console.log("browser does have geo!");
  		navigator.geolocation.getCurrentPosition(locationFound, locationError, geoOptions);
  	} else
  	{
@@ -41,7 +41,6 @@ User.prototype.geolocate = function() {
  	}
 
  	function locationFound(position) {
- 		console.log(this);
  		user.currentLocation.lat = position.coords.latitude;
 		user.currentLocation.lng = position.coords.longitude;
 		controller.placeUserOnMap();

@@ -8,6 +8,8 @@
  	console.log("Model constructor");
  }
 
+ Model.prototype.apiKey = "dcBun75XjwhPmnAkv8tQFa2xb";
+
  Model.prototype.defaultAttraction = ATTRACTIONS[0];
 
  Model.prototype.getXHRObjectSettings = function() {

@@ -40,28 +40,90 @@ function initialize() {
     	}
   	});
 
-  	$("#redoGeo").click(user.geolocate());
+  	//$("#redoGeo").click(user.geolocate());
 
-  	testAjax();
+  	var xhr = createCORSRequest("GET", "http://www.ctabustracker.com/bustime/api/v1/getroutes?key="+model.apiKey);
+
+  	if (!xhr) {
+  		throw new Error("CORS not supported.");
+  	} else {
+  		console.log(xhr);
+  		xhr.send();
+  	}
 
 }
 
 function testFxn() {
 	console.log("testFxn!");
+
+	getData("http://www.ctabustracker.com/bustime/api/v1/getroutes?key="+model.apiKey, hiyo);
+
+	//http://www.ctabustracker.com/bustime/api/v1/getroutes?key=dcBun75XjwhPmnAkv8tQFa2xb
 }
 
+var foo;
 
+// Services
 
-function testAjax() {
-	console.log("testAjax");
-
-	$.ajax({
-  		url: "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=dcBun75XjwhPmnAkv8tQFa2xb",
-  		cache: false
-	})
-  		.done(function( html ) {
-    		console.log("done!");
-  		});
+function createCORSRequest(method, url) {
+	console.log("createCORSRequest");
+	var xhr = new XMLHttpRequest();
+	
+	if ("withCredentials" in xhr) {
+		xhr.open(method, url, true);
+	} else if (typeof XDomainRequest != undefined) {
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+	} else {
+		xhr = null;
 	}
 
+	return xhr;
+}
+
+/*
+function getData(urlParam, callback) {
+	$.ajax({
+		type: "GET",
+		dataType: "xml",
+		url: urlParam,
+		success: function(xml) {
+			console.log(xml);
+			console.log("success?");
+		}
+	})
+}
+*/
+
+/*
+function getData(url, callback) {
+	var xhr;
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = ensureReadiness;
+
+	function ensureReadiness() {
+		if (xhr.readyState < 4) {
+			return;
+		}
+
+		if (xhr.readyState != 200) {
+			console.log("getData not finding service");
+		}
+
+		if (xhr.readyState === 4) {
+			console.log("getData for "+url+" : success");
+			callback(xhr);
+		}
+	}
+
+	xhr.open('GET', url, true);
+	xhr.send('');
+}
+*/
+
+function hiyo(data) {
+	console.log("hiyooo");
+	foo = data;
+	console.log(data.responseText);
+}
 
